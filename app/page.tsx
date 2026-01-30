@@ -8,6 +8,8 @@ import { Hobbies } from "@/components/sections/hobbies";
 import { Contact } from "@/components/sections/contact";
 import { getContent } from "@/lib/content";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const content = await getContent();
 

@@ -7,6 +7,8 @@ import { Footer } from "@/components/layout/footer";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
+export const revalidate = 60;
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
