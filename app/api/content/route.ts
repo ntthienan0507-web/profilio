@@ -18,7 +18,8 @@ export async function PUT(req: NextRequest) {
     const content = (await req.json()) as PortfolioContent;
     await saveContent(content);
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Invalid content" }, { status: 400 });
+  } catch (err) {
+    console.error("Save content error:", err);
+    return NextResponse.json({ error: String(err) }, { status: 400 });
   }
 }

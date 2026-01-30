@@ -24,5 +24,6 @@ export async function saveContent(content: PortfolioContent): Promise<void> {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
