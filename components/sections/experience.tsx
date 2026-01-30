@@ -44,11 +44,8 @@ function ProjectCard({ exp, index }: { exp: Experience; index: number }) {
         )}
       </div>
 
-      {/* Corner bracket accents */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-500"
-        style={{ opacity: hovered ? 1 : 0 }}
-      >
+      {/* Corner bracket accents — always visible */}
+      <div className="pointer-events-none absolute inset-0 rounded-2xl">
         <span className="absolute left-2 top-2 h-4 w-4 border-l-2 border-t-2 border-accent opacity-60" />
         <span className="absolute right-2 top-2 h-4 w-4 border-r-2 border-t-2 border-accent opacity-60" />
         <span className="absolute bottom-2 left-2 h-4 w-4 border-b-2 border-l-2 border-accent opacity-60" />

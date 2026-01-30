@@ -89,11 +89,8 @@ function SkillCard({ category, items, index, isInView }: { category: string; ite
 
         {/* Card inner */}
         <div className="relative h-full rounded-[calc(1rem-1px)] bg-[var(--glass-bg)] p-5 backdrop-blur-xl">
-          {/* Corner bracket accents */}
-          <div
-            className="pointer-events-none absolute inset-0 rounded-[calc(1rem-1px)] transition-opacity duration-500"
-            style={{ opacity: hovered ? 1 : 0 }}
-          >
+          {/* Corner bracket accents — always visible */}
+          <div className="pointer-events-none absolute inset-0 rounded-[calc(1rem-1px)]">
             <span className="absolute left-2 top-2 h-4 w-4 border-l-2 border-t-2 border-accent opacity-60" />
             <span className="absolute right-2 top-2 h-4 w-4 border-r-2 border-t-2 border-accent opacity-60" />
             <span className="absolute bottom-2 left-2 h-4 w-4 border-b-2 border-l-2 border-accent opacity-60" />
@@ -109,12 +106,9 @@ function SkillCard({ category, items, index, isInView }: { category: string; ite
             }}
           />
 
-          {/* Category-specific animated illustration bg */}
-          <div
-            className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-            style={{ opacity: hovered ? 1 : 0 }}
-          >
-            {hovered && <SkillCardBg category={category} />}
+          {/* Category-specific animated illustration bg — always visible */}
+          <div className="pointer-events-none absolute inset-0">
+            <SkillCardBg category={category} />
           </div>
 
           {/* Category header */}
