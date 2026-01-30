@@ -7,6 +7,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { skills } from "@/lib/data";
 import { TechIcon } from "@/components/ui/tech-icons";
 import { SkillCardBg } from "@/components/ui/skill-card-bg";
+import { useTilt } from "@/lib/use-tilt";
 
 /* Category icon map */
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -47,122 +48,108 @@ const categoryIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-/* Deterministic scattered offsets — avoids hydration mismatch */
-const scatterOffsets = [
-  { x: 200, y: -120, rotate: 15 },
-  { x: -180, y: 80, rotate: -18 },
-  { x: 140, y: 130, rotate: 10 },
-  { x: -220, y: -60, rotate: -14 },
-  { x: 170, y: 100, rotate: 20 },
-  { x: -130, y: -140, rotate: -11 },
-  { x: 90, y: 110, rotate: 16 },
-];
-
-/* Intermediate "floating" keyframe — cards drift through this mid-point */
-const floatMid = [
-  { x: -40, y: 30, rotate: -4 },
-  { x: 50, y: -20, rotate: 6 },
-  { x: -30, y: -40, rotate: -3 },
-  { x: 60, y: 25, rotate: 5 },
-  { x: -50, y: -15, rotate: -5 },
-  { x: 35, y: 35, rotate: 4 },
-  { x: -25, y: -30, rotate: -3 },
-];
-
 function SkillCard({ category, items, index, isInView }: { category: string; items: string[]; index: number; isInView: boolean }) {
   const [hovered, setHovered] = useState(false);
-  const scatter = scatterOffsets[index % scatterOffsets.length];
-  const mid = floatMid[index % floatMid.length];
+  const tilt = useTilt({ maxTilt: 10 });
 
   return (
-    <motion.div
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      initial={{ opacity: 0, x: scatter.x, y: scatter.y, rotate: scatter.rotate, scale: 0.8 }}
-      animate={
-        isInView
-          ? {
-              opacity: [0, 0.6, 0.85, 1],
-              x: [scatter.x, mid.x * 1.2, mid.x * -0.5, 0],
-              y: [scatter.y, mid.y * 1.2, mid.y * -0.5, 0],
-              rotate: [scatter.rotate, mid.rotate, mid.rotate * -0.3, 0],
-              scale: [0.8, 0.9, 0.95, 1],
-            }
-          : { opacity: 0, x: scatter.x, y: scatter.y, rotate: scatter.rotate, scale: 0.8 }
-      }
-      transition={{
-        duration: 2.2,
-        delay: index * 0.12,
-        ease: [0.22, 1, 0.36, 1],
-        times: [0, 0.35, 0.7, 1],
-      }}
-      className="group relative h-full rounded-2xl p-px"
-    >
-      {/* Animated gradient border on hover */}
-      <div
-        className="absolute inset-0 rounded-2xl transition-opacity duration-500"
-        style={{
-          opacity: hovered ? 1 : 0,
-          background: "conic-gradient(from 0deg, #10b981, #6366f1, #10b981)",
+    <div style={{ perspective: "800px" }}>
+      <motion.div
+        ref={tilt.ref}
+        onHoverStart={() => { setHovered(true); tilt.onMouseEnter(); }}
+        onHoverEnd={() => { setHovered(false); tilt.onMouseLeave(); }}
+        onMouseMove={tilt.onMouseMove}
+        initial={{ opacity: 0, y: 40, scale: 0.95, filter: "blur(8px)" }}
+        animate={
+          isInView
+            ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+            : { opacity: 0, y: 40, scale: 0.95, filter: "blur(8px)" }
+        }
+        transition={{
+          duration: 0.7,
+          delay: index * 0.1,
+          ease: [0.25, 0.46, 0.45, 0.94],
         }}
-      />
-      {/* Static border */}
-      <div
-        className="absolute inset-0 rounded-2xl border border-[var(--glass-border)] transition-opacity duration-500"
-        style={{ opacity: hovered ? 0 : 1 }}
-      />
-
-      {/* Card inner */}
-      <div className="relative h-full rounded-[calc(1rem-1px)] bg-[var(--glass-bg)] p-5 backdrop-blur-xl">
-        {/* Hover glow */}
+        style={tilt.style}
+        className="group relative h-full rounded-2xl p-px"
+      >
+        {/* Animated gradient border on hover */}
         <div
-          className="pointer-events-none absolute inset-0 rounded-[calc(1rem-1px)] transition-opacity duration-500"
+          className="absolute inset-0 rounded-2xl transition-opacity duration-500"
           style={{
-            opacity: hovered ? 1 : 0,
-            background: "radial-gradient(600px circle at 50% 0%, rgba(16,185,129,0.06), transparent 60%)",
+            opacity: hovered ? 0.6 : 0,
+            background: "conic-gradient(from 0deg, #10b981, #6366f1, #10b981)",
           }}
         />
-
-        {/* Category-specific animated illustration bg */}
+        {/* Static border */}
         <div
-          className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-          style={{ opacity: hovered ? 1 : 0 }}
-        >
-          {hovered && <SkillCardBg category={category} />}
-        </div>
+          className="absolute inset-0 rounded-2xl border border-[var(--glass-border)] transition-opacity duration-500"
+          style={{ opacity: hovered ? 0 : 1 }}
+        />
 
-        {/* Category header */}
-        <div className="relative mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/20">
-              {categoryIcons[category]}
-            </span>
-            <h3 className="text-base font-semibold uppercase tracking-wider">
-              {category}
-            </h3>
+        {/* Card inner */}
+        <div className="relative h-full rounded-[calc(1rem-1px)] bg-[var(--glass-bg)] p-5 backdrop-blur-xl">
+          {/* Corner bracket accents */}
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[calc(1rem-1px)] transition-opacity duration-500"
+            style={{ opacity: hovered ? 1 : 0 }}
+          >
+            <span className="absolute left-2 top-2 h-4 w-4 border-l-2 border-t-2 border-accent opacity-60" />
+            <span className="absolute right-2 top-2 h-4 w-4 border-r-2 border-t-2 border-accent opacity-60" />
+            <span className="absolute bottom-2 left-2 h-4 w-4 border-b-2 border-l-2 border-accent opacity-60" />
+            <span className="absolute bottom-2 right-2 h-4 w-4 border-b-2 border-r-2 border-accent opacity-60" />
           </div>
-          <span className="rounded-full bg-accent/10 px-2 py-0.5 font-mono text-xs text-accent">
-            {items.length}
-          </span>
-        </div>
 
-        {/* Skill pills */}
-        <div className="relative flex flex-wrap gap-2">
-          {items.map((skill, si) => (
-            <motion.span
-              key={skill}
-              initial={false}
-              animate={{ scale: hovered ? 1.02 : 1 }}
-              transition={{ duration: 0.2, delay: si * 0.03 }}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--glass-border)] bg-[var(--bg)] px-3 py-1.5 font-mono text-sm text-[var(--text-secondary)] transition-all duration-200 hover:border-accent/40 hover:text-accent hover:shadow-[0_0_12px_rgba(16,185,129,0.1)]"
-            >
-              <TechIcon name={skill} />
-              {skill}
-            </motion.span>
-          ))}
+          {/* Hover glow */}
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[calc(1rem-1px)] transition-opacity duration-500"
+            style={{
+              opacity: hovered ? 1 : 0,
+              background: "radial-gradient(600px circle at 50% 0%, rgba(16,185,129,0.06), transparent 60%)",
+            }}
+          />
+
+          {/* Category-specific animated illustration bg */}
+          <div
+            className="pointer-events-none absolute inset-0 transition-opacity duration-500"
+            style={{ opacity: hovered ? 1 : 0 }}
+          >
+            {hovered && <SkillCardBg category={category} />}
+          </div>
+
+          {/* Category header */}
+          <div className="relative mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/20">
+                {categoryIcons[category]}
+              </span>
+              <h3 className="text-base font-semibold uppercase tracking-wider">
+                {category}
+              </h3>
+            </div>
+            <span className="rounded-full bg-accent/10 px-2 py-0.5 font-mono text-xs text-accent">
+              {items.length}
+            </span>
+          </div>
+
+          {/* Skill pills */}
+          <div className="relative flex flex-wrap gap-2">
+            {items.map((skill, si) => (
+              <motion.span
+                key={skill}
+                initial={false}
+                animate={{ scale: hovered ? 1.02 : 1 }}
+                transition={{ duration: 0.2, delay: si * 0.03 }}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--glass-border)] bg-[var(--bg)] px-3 py-1.5 font-mono text-sm text-[var(--text-secondary)] transition-all duration-200 hover:border-accent/40 hover:text-accent hover:shadow-[0_0_12px_rgba(16,185,129,0.1)]"
+              >
+                <TechIcon name={skill} />
+                {skill}
+              </motion.span>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 

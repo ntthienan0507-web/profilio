@@ -6,21 +6,55 @@ import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { experiences, type Experience } from "@/lib/data";
+import { useTilt } from "@/lib/use-tilt";
 
 const ProjectIcon3D = dynamic(
   () => import("@/components/ui/project-icon-3d").then((m) => m.ProjectIcon3D),
   { ssr: false }
 );
 
+const TechCardBgScene = dynamic(
+  () => import("@/components/ui/tech-card-bg-scene").then((m) => m.TechCardBgScene),
+  { ssr: false }
+);
+
 function ProjectCard({ exp, index }: { exp: Experience; index: number }) {
   const [hovered, setHovered] = useState(false);
+  const tilt = useTilt({ maxTilt: 8 });
 
   return (
+    <div style={{ perspective: "800px" }}>
     <motion.div
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="group relative rounded-2xl border border-[var(--glass-border)] bg-[var(--glass-bg)] p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--glass-border-hover)] hover:bg-[var(--glass-bg-hover)] hover:shadow-[0_0_30px_rgba(16,185,129,0.12)]"
+      ref={tilt.ref}
+      onHoverStart={() => { setHovered(true); tilt.onMouseEnter(); }}
+      onHoverEnd={() => { setHovered(false); tilt.onMouseLeave(); }}
+      onMouseMove={tilt.onMouseMove}
+      style={tilt.style}
+      className="group relative rounded-2xl border border-[var(--glass-border)] bg-[var(--glass-bg)] p-6 backdrop-blur-xl transition-[border-color,background,box-shadow] duration-300 hover:border-[var(--glass-border-hover)] hover:bg-[var(--glass-bg-hover)] hover:shadow-[0_0_30px_rgba(16,185,129,0.12)]"
     >
+      {/* Technical background layer — very subtle behind content */}
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl transition-opacity duration-500"
+        style={{ opacity: hovered ? 0.2 : 0 }}
+      >
+        {hovered && (
+          <Suspense fallback={null}>
+            <TechCardBgScene />
+          </Suspense>
+        )}
+      </div>
+
+      {/* Corner bracket accents */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-500"
+        style={{ opacity: hovered ? 1 : 0 }}
+      >
+        <span className="absolute left-2 top-2 h-4 w-4 border-l-2 border-t-2 border-accent opacity-60" />
+        <span className="absolute right-2 top-2 h-4 w-4 border-r-2 border-t-2 border-accent opacity-60" />
+        <span className="absolute bottom-2 left-2 h-4 w-4 border-b-2 border-l-2 border-accent opacity-60" />
+        <span className="absolute bottom-2 right-2 h-4 w-4 border-b-2 border-r-2 border-accent opacity-60" />
+      </div>
+
       {/* Accent gradient top */}
       <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-accent/40 via-accent/10 to-transparent transition-opacity duration-300 group-hover:opacity-100 opacity-60" />
 
@@ -113,6 +147,7 @@ function ProjectCard({ exp, index }: { exp: Experience; index: number }) {
         Hover for details
       </div>
     </motion.div>
+    </div>
   );
 }
 
