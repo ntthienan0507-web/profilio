@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { navLinks } from "@/lib/constants";
+import type { NavLink } from "@/lib/types";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
-export function Navbar() {
+export function Navbar({ navLinks }: { navLinks: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 

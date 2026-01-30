@@ -3,7 +3,7 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { achievements } from "@/lib/data";
+import type { Achievement } from "@/lib/types";
 
 function AchievementIcon({ name }: { name: string }) {
   const props = {
@@ -51,7 +51,7 @@ function AchievementIcon({ name }: { name: string }) {
   }
 }
 
-export function Achievements() {
+export function Achievements({ achievements }: { achievements: Achievement[] }) {
   return (
     <section id="achievements" className="bg-bg2 py-24">
       <div className="mx-auto max-w-[1200px] px-6">

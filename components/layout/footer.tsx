@@ -1,6 +1,6 @@
-import { siteConfig } from "@/lib/constants";
+import type { SiteConfig } from "@/lib/types";
 
-export function Footer() {
+export function Footer({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
     <footer className="border-t border-[var(--glass-border)] py-8">
       <div className="mx-auto max-w-[1200px] px-6 text-center">

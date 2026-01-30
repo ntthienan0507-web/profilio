@@ -1,9 +1,9 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { education } from "@/lib/data";
+import type { Education as EducationType } from "@/lib/types";
 
-export function Education() {
+export function Education({ education }: { education: EducationType }) {
   return (
     <section className="py-24">
       <div className="mx-auto max-w-[1200px] px-6">

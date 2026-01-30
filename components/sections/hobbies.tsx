@@ -3,7 +3,7 @@
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { GlassCard } from "@/components/ui/glass-card";
-import { hobbies } from "@/lib/data";
+import type { Hobby } from "@/lib/types";
 
 /* Hobby icon SVGs */
 const hobbyIcons: Record<string, React.ReactNode> = {
@@ -43,7 +43,7 @@ const hobbyIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-export function Hobbies() {
+export function Hobbies({ hobbies }: { hobbies: Hobby[] }) {
   return (
     <section id="hobbies" className="py-24">
       <div className="mx-auto max-w-[1200px] px-6">

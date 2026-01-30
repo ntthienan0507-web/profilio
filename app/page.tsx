@@ -6,40 +6,42 @@ import { Achievements } from "@/components/sections/achievements";
 import { Education } from "@/components/sections/education";
 import { Hobbies } from "@/components/sections/hobbies";
 import { Contact } from "@/components/sections/contact";
-import { siteConfig } from "@/lib/constants";
+import { getContent } from "@/lib/content";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: siteConfig.name,
-  jobTitle: "Senior Full-Stack Engineer",
-  url: siteConfig.url,
-  sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
-  knowsAbout: [
-    "Go",
-    "Ruby",
-    "TypeScript",
-    "Kubernetes",
-    "PostgreSQL",
-    "Cloud Infrastructure",
-  ],
-};
+export default async function Home() {
+  const content = await getContent();
 
-export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: content.siteConfig.name,
+    jobTitle: "Senior Full-Stack Engineer",
+    url: content.siteConfig.url,
+    sameAs: [content.siteConfig.links.github, content.siteConfig.links.linkedin],
+    knowsAbout: [
+      "Go",
+      "Ruby",
+      "TypeScript",
+      "Kubernetes",
+      "PostgreSQL",
+      "Cloud Infrastructure",
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Achievements />
-      <Education />
-      <Hobbies />
-      <Contact />
+      <Hero siteConfig={content.siteConfig} />
+      <About aboutText={content.aboutText} stats={content.stats} />
+      <Skills skills={content.skills} />
+      <Experience experiences={content.experiences} />
+      <Achievements achievements={content.achievements} />
+      <Education education={content.education} />
+      <Hobbies hobbies={content.hobbies} />
+      <Contact siteConfig={content.siteConfig} />
     </>
   );
 }

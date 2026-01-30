@@ -1,29 +1,48 @@
-export interface SkillCategory {
-  category: string;
-  skills: string[];
-}
+export type {
+  SkillCategory,
+  Experience,
+  Achievement,
+  Education,
+  Hobby,
+  Stat,
+  SiteConfig,
+  NavLink,
+  PortfolioContent,
+} from "./types";
 
-export interface Experience {
-  title: string;
-  subtitle: string;
-  company: string;
-  period: string;
-  tech: string[];
-  metrics: { value: string; label: string }[];
-  bullets: string[];
-}
+import type {
+  SkillCategory,
+  Experience,
+  Achievement,
+  Education as EducationType,
+  Hobby,
+  Stat,
+  SiteConfig,
+  NavLink,
+  PortfolioContent,
+} from "./types";
 
-export interface Achievement {
-  icon: string;
-  metric: string;
-  label: string;
-}
+export const defaultSiteConfig: SiteConfig = {
+  name: "[YOUR FULL NAME]",
+  title: "Senior Full-Stack Engineer | Platform & Data Architect",
+  description:
+    "Portfolio of a Senior Full-Stack Engineer specializing in Go, Ruby, TypeScript, and Cloud Infrastructure.",
+  url: "https://profilio.vercel.app",
+  ogImage: "/og-image.jpg",
+  links: {
+    github: "https://github.com/[USERNAME]",
+    linkedin: "https://linkedin.com/in/[USERNAME]",
+    email: "[EMAIL]",
+  },
+};
 
-export interface Education {
-  degree: string;
-  school: string;
-  period: string;
-}
+export const defaultNavLinks: NavLink[] = [
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Contact", href: "#contact" },
+];
 
 export const skills: SkillCategory[] = [
   {
@@ -117,7 +136,7 @@ export const achievements: Achievement[] = [
   { icon: "award", metric: "90+", label: "PageSpeed Score" },
 ];
 
-export const education: Education = {
+export const education: EducationType = {
   degree: "Bachelor of Information Technology",
   school: "[University Name]",
   period: "2016 – 2020",
@@ -126,17 +145,11 @@ export const education: Education = {
 export const aboutText =
   "A results-oriented full-stack engineer with 4+ years of experience designing and building enterprise cloud platforms, financial APIs, and data-driven web applications. Passionate about clean architecture, infrastructure as code, and developer experience. Specialized in navigating Agile/Scrum environments and bridging complex business requirements with architectural excellence.";
 
-export const stats = [
+export const stats: Stat[] = [
   { value: 4, suffix: "+", label: "Years Experience" },
   { value: 3, suffix: "", label: "Major Projects" },
   { value: 80, suffix: "%", label: "Infra Automated" },
 ];
-
-export interface Hobby {
-  icon: string;
-  label: string;
-  description: string;
-}
 
 export const hobbies: Hobby[] = [
   { icon: "code", label: "Open Source", description: "Contributing to OSS projects & building dev tools" },
@@ -146,3 +159,15 @@ export const hobbies: Hobby[] = [
   { icon: "coffee", label: "Coffee", description: "Exploring specialty coffee & brewing methods" },
   { icon: "globe", label: "Travel", description: "Discovering new cultures & street food" },
 ];
+
+export const defaultContent: PortfolioContent = {
+  siteConfig: defaultSiteConfig,
+  navLinks: defaultNavLinks,
+  aboutText,
+  stats,
+  skills,
+  experiences,
+  achievements,
+  education,
+  hobbies,
+};

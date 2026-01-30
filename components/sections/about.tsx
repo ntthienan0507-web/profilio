@@ -4,7 +4,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
-import { aboutText, stats } from "@/lib/data";
+import type { Stat } from "@/lib/types";
 
 const KEYWORDS = [
   "full-stack engineer",
@@ -38,7 +38,7 @@ function HighlightedText({ text }: { text: string }) {
   );
 }
 
-export function About() {
+export function About({ aboutText, stats }: { aboutText: string; stats: Stat[] }) {
   return (
     <section id="about" className="py-24">
       <div className="mx-auto max-w-[1200px] px-6">

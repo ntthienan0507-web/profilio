@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { skills } from "@/lib/data";
+import type { SkillCategory } from "@/lib/types";
 import { TechIcon } from "@/components/ui/tech-icons";
 import { SkillCardBg } from "@/components/ui/skill-card-bg";
 import { useTilt } from "@/lib/use-tilt";
@@ -147,7 +147,7 @@ function SkillCard({ category, items, index, isInView }: { category: string; ite
   );
 }
 
-export function Skills() {
+export function Skills({ skills }: { skills: SkillCategory[] }) {
   const gridRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(gridRef, { once: true, margin: "-80px" });
 

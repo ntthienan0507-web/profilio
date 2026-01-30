@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { experiences, type Experience } from "@/lib/data";
+import type { Experience as ExperienceType } from "@/lib/types";
 import { useTilt } from "@/lib/use-tilt";
 
 const ProjectIcon3D = dynamic(
@@ -18,7 +18,7 @@ const TechCardBgScene = dynamic(
   { ssr: false }
 );
 
-function ProjectCard({ exp, index }: { exp: Experience; index: number }) {
+function ProjectCard({ exp, index }: { exp: ExperienceType; index: number }) {
   const [hovered, setHovered] = useState(false);
   const tilt = useTilt({ maxTilt: 8 });
 
@@ -148,7 +148,7 @@ function ProjectCard({ exp, index }: { exp: Experience; index: number }) {
   );
 }
 
-export function Experience() {
+export function Experience({ experiences }: { experiences: ExperienceType[] }) {
   return (
     <section id="experience" className="py-24">
       <div className="mx-auto max-w-[1200px] px-6">

@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ParticleBgLoader } from "@/components/ui/particle-bg-loader";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { siteConfig } from "@/lib/constants";
+import { getContent } from "@/lib/content";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -19,38 +19,45 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: `${siteConfig.name} | ${siteConfig.title}`,
-  description: siteConfig.description,
-  keywords: [
-    "Full-Stack Engineer",
-    "Go",
-    "Ruby",
-    "TypeScript",
-    "Kubernetes",
-    "Cloud Infrastructure",
-    "Portfolio",
-  ],
-  openGraph: {
-    title: `${siteConfig.name} | ${siteConfig.title}`,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} | ${siteConfig.title}`,
-    description: siteConfig.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getContent();
+  const { siteConfig } = content;
 
-export default function RootLayout({
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: `${siteConfig.name} | ${siteConfig.title}`,
+    description: siteConfig.description,
+    keywords: [
+      "Full-Stack Engineer",
+      "Go",
+      "Ruby",
+      "TypeScript",
+      "Kubernetes",
+      "Cloud Infrastructure",
+      "Portfolio",
+    ],
+    openGraph: {
+      title: `${siteConfig.name} | ${siteConfig.title}`,
+      description: siteConfig.description,
+      url: siteConfig.url,
+      siteName: siteConfig.name,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${siteConfig.name} | ${siteConfig.title}`,
+      description: siteConfig.description,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content = await getContent();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -72,9 +79,9 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <ParticleBgLoader />
-          <Navbar />
+          <Navbar navLinks={content.navLinks} />
           <main className="relative z-10">{children}</main>
-          <Footer />
+          <Footer siteConfig={content.siteConfig} />
         </ThemeProvider>
       </body>
     </html>

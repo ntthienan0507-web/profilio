@@ -1,9 +1,9 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { siteConfig } from "@/lib/constants";
+import type { SiteConfig } from "@/lib/types";
 
-export function Contact() {
+export function Contact({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
     <section id="contact" className="bg-bg2 py-24">
       <div className="mx-auto max-w-[1200px] px-6">

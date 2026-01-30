@@ -3,14 +3,14 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "motion/react";
-import { siteConfig } from "@/lib/constants";
+import type { SiteConfig } from "@/lib/types";
 
 const HeroGlobe = dynamic(
   () => import("@/components/ui/hero-globe").then((m) => m.HeroGlobe),
   { ssr: false }
 );
 
-export function Hero() {
+export function Hero({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden">
       {/* 3D Globe background */}
