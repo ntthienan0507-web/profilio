@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "contact_popup_dismissed";
-const POPUP_DELAY_MS = 30_000;
+const POPUP_DELAY_MS = 15_000;
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
