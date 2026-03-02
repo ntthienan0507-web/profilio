@@ -13,7 +13,18 @@ export async function getContent(): Promise<PortfolioContent> {
     if (!res.ok) return defaultContent;
 
     const data = (await res.json()) as Partial<PortfolioContent>;
-    return { ...defaultContent, ...data };
+    const merged = { ...defaultContent, ...data };
+
+    // Deep-merge experiences: preserve default fields (e.g. architectureDiagram)
+    // when Blob data doesn't have them
+    if (data.experiences && defaultContent.experiences) {
+      merged.experiences = data.experiences.map((exp, i) => {
+        const fallback = defaultContent.experiences[i];
+        return fallback ? { ...fallback, ...exp } : exp;
+      });
+    }
+
+    return merged;
   } catch {
     return defaultContent;
   }
