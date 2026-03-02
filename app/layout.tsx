@@ -7,8 +7,6 @@ import { Footer } from "@/components/layout/footer";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
-export const revalidate = 60;
-
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
@@ -21,8 +19,8 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getContent();
+export function generateMetadata(): Metadata {
+  const content = getContent();
   const { siteConfig } = content;
 
   return {
@@ -53,12 +51,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const content = await getContent();
+  const content = getContent();
 
   return (
     <html lang="en" suppressHydrationWarning>

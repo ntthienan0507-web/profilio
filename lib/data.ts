@@ -27,7 +27,7 @@ export const defaultSiteConfig: SiteConfig = {
   title: "Senior Full-Stack Engineer | Platform & Data Architect",
   description:
     "Portfolio of a Senior Full-Stack Engineer specializing in Go, Ruby, TypeScript, and Cloud Infrastructure.",
-  url: "https://profilio.vercel.app",
+  url: "https://nqc.netlify.app",
   ogImage: "/og-image.jpg",
   links: {
     github: "https://github.com/ntthienan0507-web",
@@ -381,7 +381,7 @@ export const experiences: Experience[] = [
 
 export const achievements: Achievement[] = [
   { icon: "zap", metric: "80%", label: "Cloud Infra Automated" },
-  { icon: "bar-chart", metric: "85+", label: "API Endpoints Built" },
+  { icon: "bar-chart", metric: "1500+", label: "API Endpoints Built" },
   { icon: "clock", metric: "<1s", label: "P95 Latency" },
   { icon: "award", metric: "90+", label: "PageSpeed Score" },
 ];
