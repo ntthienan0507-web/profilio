@@ -5,6 +5,7 @@ import { ParticleBgLoader } from "@/components/ui/particle-bg-loader";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ContactPopup } from "@/components/ui/contact-popup";
+import { Chatbot } from "@/components/ui/chatbot";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
@@ -84,6 +85,7 @@ export default function RootLayout({
           <main className="relative z-10">{children}</main>
           <Footer siteConfig={content.siteConfig} />
           <ContactPopup />
+          <Chatbot />
         </ThemeProvider>
       </body>
     </html>
