@@ -3,6 +3,32 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export interface ArchNode {
+  id: string;
+  label: string;
+  sublabel?: string;
+  x: number;
+  y: number;
+  type: "client" | "gateway" | "service" | "worker" | "storage" | "monitor";
+}
+
+export interface ArchEdge {
+  from: string;
+  to: string;
+  animated?: boolean;
+}
+
+export interface ArchGroup {
+  label: string;
+  nodeIds: string[];
+}
+
+export interface ArchDiagramData {
+  nodes: ArchNode[];
+  edges: ArchEdge[];
+  groups?: ArchGroup[];
+}
+
 export interface Experience {
   title: string;
   subtitle: string;
@@ -11,7 +37,7 @@ export interface Experience {
   tech: string[];
   metrics: { value: string; label: string }[];
   bullets: string[];
-  architectureDiagram?: string;
+  architectureDiagram?: ArchDiagramData;
 }
 
 export interface Achievement {

@@ -92,43 +92,45 @@ export const experiences: Experience[] = [
       "Developed 50+ background job classes automating cluster provisioning and scaling via CRDs.",
       "Implemented RBS/Steep type safety for mission-critical infrastructure operations.",
     ],
-    architectureDiagram: `graph TB
-  Client([Client Apps]):::client --> GW[API Gateway<br/>JWT + Versioned Routing]:::gateway
-
-  subgraph Services[Microservices Cluster]
-    direction TB
-    GW --> Auth[Auth Service<br/>RSA JWT]:::service
-    GW --> VM[VM Service]:::service
-    GW --> K8s[K8s Service]:::service
-    GW --> Net[Network Service]:::service
-    GW --> Store[Storage Service]:::service
-    GW --> Bill[Billing Service]:::service
-  end
-
-  subgraph Workers[Background Workers]
-    direction TB
-    Queue[(Job Queue<br/>50+ Classes)]:::queue
-    Prov[Cluster Provisioner]:::worker
-    Scale[Auto Scaler]:::worker
-    Queue --> Prov
-    Queue --> Scale
-  end
-
-  Services --> Queue
-  K8s --> CRD[Kubernetes CRDs]:::infra
-  Prov --> CRD
-  Scale --> CRD
-  Store --> S3[(Object Storage)]:::storage
-  Bill --> DB[(PostgreSQL)]:::storage
-  Auth --> Redis[(Redis Cache)]:::storage
-
-  classDef client fill:#10b981,stroke:#059669,color:#fff
-  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
-  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
-  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
-  classDef queue fill:#1a1a2e,stroke:#10b981,color:#10b981
-  classDef infra fill:#0a0a0f,stroke:#10b981,color:#10b981
-  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
+    architectureDiagram: {
+      nodes: [
+        { id: "client", label: "Client Apps", x: 50, y: 5, type: "client" },
+        { id: "gw", label: "API Gateway", sublabel: "JWT + Versioned Routing", x: 50, y: 20, type: "gateway" },
+        { id: "auth", label: "Auth Service", sublabel: "RSA JWT", x: 15, y: 38, type: "service" },
+        { id: "vm", label: "VM Service", x: 35, y: 38, type: "service" },
+        { id: "k8s", label: "K8s Service", x: 55, y: 38, type: "service" },
+        { id: "net", label: "Network Service", x: 75, y: 38, type: "service" },
+        { id: "store", label: "Storage Service", x: 20, y: 55, type: "service" },
+        { id: "bill", label: "Billing Service", x: 45, y: 55, type: "service" },
+        { id: "queue", label: "Job Queue", sublabel: "50+ Classes", x: 75, y: 58, type: "worker" },
+        { id: "prov", label: "Provisioner", x: 65, y: 75, type: "worker" },
+        { id: "scale", label: "Auto Scaler", x: 85, y: 75, type: "worker" },
+        { id: "crd", label: "K8s CRDs", x: 75, y: 92, type: "gateway" },
+        { id: "s3", label: "Object Storage", x: 10, y: 75, type: "storage" },
+        { id: "db", label: "PostgreSQL", x: 35, y: 75, type: "storage" },
+        { id: "redis", label: "Redis Cache", x: 15, y: 92, type: "storage" },
+      ],
+      edges: [
+        { from: "client", to: "gw", animated: true },
+        { from: "gw", to: "auth" },
+        { from: "gw", to: "vm" },
+        { from: "gw", to: "k8s" },
+        { from: "gw", to: "net" },
+        { from: "k8s", to: "queue", animated: true },
+        { from: "bill", to: "queue" },
+        { from: "queue", to: "prov", animated: true },
+        { from: "queue", to: "scale", animated: true },
+        { from: "prov", to: "crd", animated: true },
+        { from: "scale", to: "crd" },
+        { from: "store", to: "s3" },
+        { from: "bill", to: "db" },
+        { from: "auth", to: "redis" },
+      ],
+      groups: [
+        { label: "Microservices", nodeIds: ["auth", "vm", "k8s", "net", "store", "bill"] },
+        { label: "Workers", nodeIds: ["queue", "prov", "scale"] },
+      ],
+    },
   },
   {
     title: "BI Financial API",
@@ -146,41 +148,42 @@ export const experiences: Experience[] = [
       "Built 85+ endpoints handling large-scale datasets with PostgreSQL optimization and Elastic APM.",
       "Engineered robust Cron scheduling for multi-source data sync and high-volume Excel exports.",
     ],
-    architectureDiagram: `graph TB
-  Clients([Dashboard & Reports]):::client --> API[Go API Server<br/>85+ Endpoints]:::gateway
-
-  subgraph Core[Core Engine]
-    direction TB
-    API --> Rev[Revenue Recognition]:::service
-    API --> Alloc[Allocation Engine]:::service
-    API --> BS[Balance Sheet Calc]:::service
-    API --> Export[Excel Exporter]:::service
-  end
-
-  subgraph Data[Data Pipeline]
-    direction TB
-    Cron[Cron Scheduler]:::worker --> Sync[Multi-Source Sync]:::worker
-    Sync --> Transform[Data Transform]:::worker
-  end
-
-  subgraph Observe[Observability]
-    direction TB
-    APM[Elastic APM<br/>P95 &lt; 1s]:::monitor
-    Logs[ELK Stack]:::monitor
-  end
-
-  Core --> DB[(PostgreSQL<br/>Optimized Queries)]:::storage
-  Data --> DB
-  API --> APM
-  API --> Logs
-  Cron --> Export
-
-  classDef client fill:#10b981,stroke:#059669,color:#fff
-  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
-  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
-  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
-  classDef monitor fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8
-  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
+    architectureDiagram: {
+      nodes: [
+        { id: "dash", label: "Dashboard & Reports", x: 50, y: 5, type: "client" },
+        { id: "api", label: "Go API Server", sublabel: "85+ Endpoints", x: 50, y: 22, type: "gateway" },
+        { id: "rev", label: "Revenue Recognition", x: 18, y: 42, type: "service" },
+        { id: "alloc", label: "Allocation Engine", x: 42, y: 42, type: "service" },
+        { id: "bs", label: "Balance Sheet", x: 66, y: 42, type: "service" },
+        { id: "export", label: "Excel Exporter", x: 88, y: 42, type: "service" },
+        { id: "cron", label: "Cron Scheduler", x: 18, y: 68, type: "worker" },
+        { id: "sync", label: "Multi-Source Sync", x: 42, y: 68, type: "worker" },
+        { id: "transform", label: "Data Transform", x: 42, y: 85, type: "worker" },
+        { id: "apm", label: "Elastic APM", sublabel: "P95 < 1s", x: 78, y: 68, type: "monitor" },
+        { id: "elk", label: "ELK Stack", x: 78, y: 85, type: "monitor" },
+        { id: "db", label: "PostgreSQL", sublabel: "Optimized Queries", x: 50, y: 95, type: "storage" },
+      ],
+      edges: [
+        { from: "dash", to: "api", animated: true },
+        { from: "api", to: "rev" },
+        { from: "api", to: "alloc" },
+        { from: "api", to: "bs" },
+        { from: "api", to: "export" },
+        { from: "cron", to: "sync", animated: true },
+        { from: "sync", to: "transform", animated: true },
+        { from: "transform", to: "db", animated: true },
+        { from: "api", to: "apm" },
+        { from: "api", to: "elk" },
+        { from: "rev", to: "db" },
+        { from: "alloc", to: "db" },
+        { from: "cron", to: "export" },
+      ],
+      groups: [
+        { label: "Core Engine", nodeIds: ["rev", "alloc", "bs", "export"] },
+        { label: "Data Pipeline", nodeIds: ["cron", "sync", "transform"] },
+        { label: "Observability", nodeIds: ["apm", "elk"] },
+      ],
+    },
   },
   {
     title: "DataCentral & Landing Pages",
@@ -198,39 +201,41 @@ export const experiences: Experience[] = [
       "Built high-performance platforms with Next.js (App Router) + ISR achieving PageSpeed 90+.",
       "Integrated centralized Keycloak SSO with fine-grained RBAC for a modular system of 45+ domains.",
     ],
-    architectureDiagram: `graph TB
-  Users([Users<br/>45+ Domains]):::client --> CDN[CDN / Edge]:::gateway
-  CDN --> Next[Next.js App Router<br/>ISR + SSR]:::gateway
-
-  subgraph Frontend[Web Platform]
-    direction TB
-    Next --> Pages[Landing Pages<br/>PageSpeed 90+]:::service
-    Next --> Portal[Data Portal]:::service
-    Next --> Admin[Admin Panel]:::service
-  end
-
-  subgraph Auth[Authentication]
-    direction TB
-    KC[Keycloak SSO]:::worker --> RBAC[Fine-grained RBAC]:::worker
-  end
-
-  subgraph Backend[Go Backend]
-    direction TB
-    API[Go REST API]:::service
-    API --> Schema[100+ DB Tables]:::service
-  end
-
-  Frontend --> KC
-  Frontend --> API
-  API --> DB[(PostgreSQL)]:::storage
-  KC --> DB
-  API --> Cache[(Redis)]:::storage
-
-  classDef client fill:#10b981,stroke:#059669,color:#fff
-  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
-  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
-  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
-  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
+    architectureDiagram: {
+      nodes: [
+        { id: "users", label: "Users", sublabel: "45+ Domains", x: 50, y: 5, type: "client" },
+        { id: "cdn", label: "CDN / Edge", x: 50, y: 20, type: "gateway" },
+        { id: "next", label: "Next.js", sublabel: "ISR + SSR", x: 50, y: 35, type: "gateway" },
+        { id: "pages", label: "Landing Pages", sublabel: "PageSpeed 90+", x: 18, y: 52, type: "service" },
+        { id: "portal", label: "Data Portal", x: 42, y: 52, type: "service" },
+        { id: "admin", label: "Admin Panel", x: 66, y: 52, type: "service" },
+        { id: "kc", label: "Keycloak SSO", x: 22, y: 72, type: "worker" },
+        { id: "rbac", label: "Fine-grained RBAC", x: 22, y: 88, type: "worker" },
+        { id: "goapi", label: "Go REST API", x: 60, y: 72, type: "service" },
+        { id: "schema", label: "100+ DB Tables", x: 60, y: 88, type: "service" },
+        { id: "db", label: "PostgreSQL", x: 40, y: 95, type: "storage" },
+        { id: "cache", label: "Redis", x: 80, y: 88, type: "storage" },
+      ],
+      edges: [
+        { from: "users", to: "cdn", animated: true },
+        { from: "cdn", to: "next", animated: true },
+        { from: "next", to: "pages" },
+        { from: "next", to: "portal" },
+        { from: "next", to: "admin" },
+        { from: "portal", to: "kc" },
+        { from: "portal", to: "goapi", animated: true },
+        { from: "kc", to: "rbac" },
+        { from: "goapi", to: "schema" },
+        { from: "schema", to: "db", animated: true },
+        { from: "kc", to: "db" },
+        { from: "goapi", to: "cache" },
+      ],
+      groups: [
+        { label: "Web Platform", nodeIds: ["pages", "portal", "admin"] },
+        { label: "Authentication", nodeIds: ["kc", "rbac"] },
+        { label: "Go Backend", nodeIds: ["goapi", "schema"] },
+      ],
+    },
   },
 ];
 

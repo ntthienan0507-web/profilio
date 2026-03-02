@@ -1,22 +1,18 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import dynamic from "next/dynamic";
-
-const MermaidDiagram = dynamic(
-  () => import("@/components/ui/mermaid-diagram").then((m) => m.MermaidDiagram),
-  { ssr: false }
-);
+import { AnimatedArchDiagram } from "@/components/ui/animated-arch-diagram";
+import type { ArchDiagramData } from "@/lib/types";
 
 interface ArchitectureModalProps {
   open: boolean;
   onClose: () => void;
   title: string;
-  chart: string;
+  diagram: ArchDiagramData;
 }
 
-export function ArchitectureModal({ open, onClose, title, chart }: ArchitectureModalProps) {
+export function ArchitectureModal({ open, onClose, title, diagram }: ArchitectureModalProps) {
   // Close on Escape
   useEffect(() => {
     if (!open) return;
@@ -58,7 +54,7 @@ export function ArchitectureModal({ open, onClose, title, chart }: ArchitectureM
 
           {/* Modal content */}
           <motion.div
-            className="relative w-full max-w-4xl max-h-[85vh] overflow-auto rounded-2xl border border-[var(--glass-border)] bg-[var(--bg2)] shadow-2xl"
+            className="relative w-full max-w-5xl max-h-[90vh] overflow-auto rounded-2xl border border-[var(--glass-border)] bg-[var(--bg2)] shadow-2xl"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -100,15 +96,7 @@ export function ArchitectureModal({ open, onClose, title, chart }: ArchitectureM
 
             {/* Diagram area */}
             <div className="p-6 sm:p-8">
-              <Suspense
-                fallback={
-                  <div className="flex items-center justify-center p-12">
-                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-                  </div>
-                }
-              >
-                <MermaidDiagram chart={chart} id={`arch-${title.replace(/\s+/g, "-").toLowerCase()}`} />
-              </Suspense>
+              <AnimatedArchDiagram data={diagram} />
             </div>
           </motion.div>
         </motion.div>

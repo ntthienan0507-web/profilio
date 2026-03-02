@@ -215,16 +215,21 @@ export function ExperienceEditor({ experiences, onChange }: ExperienceEditorProp
 
               <div>
                 <label className="text-xs text-[var(--text-secondary)] mb-1 block">
-                  Architecture Diagram (Mermaid syntax)
+                  Architecture Diagram (JSON)
                 </label>
                 <textarea
-                  value={exp.architectureDiagram || ""}
-                  onChange={(e) =>
-                    handleExperienceChange(index, "architectureDiagram", e.target.value)
-                  }
+                  value={exp.architectureDiagram ? JSON.stringify(exp.architectureDiagram, null, 2) : ""}
+                  onChange={(e) => {
+                    try {
+                      const parsed = JSON.parse(e.target.value);
+                      handleExperienceChange(index, "architectureDiagram", parsed);
+                    } catch {
+                      // Allow typing invalid JSON while editing
+                    }
+                  }}
                   className="rounded-lg border border-[var(--glass-border)] bg-[var(--glass-bg)] px-3 py-2 text-sm outline-none focus:border-accent w-full font-mono"
                   rows={8}
-                  placeholder="graph TB&#10;  A[Service A] --> B[Service B]&#10;  B --> C[(Database)]"
+                  placeholder='{"nodes": [...], "edges": [...], "groups": [...]}'
                 />
               </div>
             </div>

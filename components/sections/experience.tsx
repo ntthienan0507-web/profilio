@@ -174,7 +174,7 @@ function ProjectCard({ exp, index }: { exp: ExperienceType; index: number }) {
         open={diagramOpen}
         onClose={() => setDiagramOpen(false)}
         title={exp.title}
-        chart={exp.architectureDiagram}
+        diagram={exp.architectureDiagram}
       />
     )}
     </>
