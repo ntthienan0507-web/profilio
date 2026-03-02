@@ -4,6 +4,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { CyberAvatar } from "@/components/ui/cyber-avatar";
 import type { Stat } from "@/lib/types";
 
 const KEYWORDS = [
@@ -50,21 +51,8 @@ export function About({ aboutText, stats }: { aboutText: string; stats: Stat[] }
           {/* Avatar card */}
           <ScrollReveal className="md:col-span-1 lg:col-span-1">
             <GlassCard className="group flex h-full flex-col items-center justify-center text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <div className="relative mb-4 h-32 w-32 overflow-hidden rounded-full border-2 border-accent/30 transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(16,185,129,0.2)]">
-                {/* Replace src with your actual photo path e.g. /avatar.jpg */}
-                <img
-                  src="/avatar.jpg"
-                  alt="Profile photo"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                />
-                {/* Fallback shown when no photo */}
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/20 to-accent/5">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-accent/40">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-                  </svg>
-                </div>
+              <div className="mb-4 transition-transform duration-300 group-hover:scale-105">
+                <CyberAvatar size={128} />
               </div>
               <div className="text-base font-semibold">Available for hire</div>
               <div className="mt-1 flex items-center gap-1.5 text-sm text-accent">
