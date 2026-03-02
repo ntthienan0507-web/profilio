@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ParticleBgLoader } from "@/components/ui/particle-bg-loader";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { ContactPopup } from "@/components/ui/contact-popup";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
@@ -82,6 +83,7 @@ export default function RootLayout({
           <Navbar navLinks={content.navLinks} />
           <main className="relative z-10">{children}</main>
           <Footer siteConfig={content.siteConfig} />
+          <ContactPopup />
         </ThemeProvider>
       </body>
     </html>

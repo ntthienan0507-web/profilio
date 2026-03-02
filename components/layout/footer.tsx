@@ -1,4 +1,5 @@
 import type { SiteConfig } from "@/lib/types";
+import { ViewCounter } from "@/components/ui/view-counter";
 
 export function Footer({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
@@ -12,6 +13,9 @@ export function Footer({ siteConfig }: { siteConfig: SiteConfig }) {
           <span className="font-mono text-accent">Next.js</span>
           {" "}&middot; Designed with care
         </p>
+        <div className="mt-3">
+          <ViewCounter />
+        </div>
       </div>
     </footer>
   );
