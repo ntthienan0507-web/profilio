@@ -88,8 +88,8 @@ function ProjectCard({ exp, index }: { exp: ExperienceType; index: number }) {
         ))}
       </div>
 
-      {/* Tech stack */}
-      <div className="mt-4 flex flex-wrap gap-1.5">
+      {/* Tech stack + Architecture button row */}
+      <div className="mt-4 flex flex-wrap items-center gap-1.5">
         {exp.tech.map((t) => (
           <span
             key={t}
@@ -98,6 +98,25 @@ function ProjectCard({ exp, index }: { exp: ExperienceType; index: number }) {
             {t}
           </span>
         ))}
+
+        {/* Architecture diagram button — always visible */}
+        {exp.architectureDiagram && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setDiagramOpen(true);
+            }}
+            className="ml-auto flex items-center gap-1.5 rounded-md border border-accent/30 bg-[var(--accent-muted)] px-3 py-1 font-mono text-xs text-accent transition-all duration-200 hover:border-accent hover:bg-accent/20 hover:shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+            </svg>
+            Architecture
+          </button>
+        )}
       </div>
 
       {/* Expandable detail preview — CSS grid trick for smooth height animation */}
@@ -132,31 +151,6 @@ function ProjectCard({ exp, index }: { exp: ExperienceType; index: number }) {
               </motion.li>
             ))}
           </ul>
-
-          {/* Architecture diagram button */}
-          {exp.architectureDiagram && (
-            <motion.button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDiagramOpen(true);
-              }}
-              className="mt-4 flex items-center gap-2 rounded-lg border border-accent/20 bg-[var(--accent-muted)] px-4 py-2 font-mono text-xs text-accent transition-all duration-200 hover:border-accent/40 hover:bg-accent/20 hover:shadow-[0_0_12px_rgba(16,185,129,0.15)]"
-              initial={false}
-              animate={{
-                opacity: hovered ? 1 : 0,
-                x: hovered ? 0 : -12,
-              }}
-              transition={{ duration: 0.25, delay: hovered ? 0.1 + exp.bullets.length * 0.08 : 0 }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="7" height="7" />
-                <rect x="14" y="3" width="7" height="7" />
-                <rect x="3" y="14" width="7" height="7" />
-                <rect x="14" y="14" width="7" height="7" />
-              </svg>
-              View Architecture
-            </motion.button>
-          )}
         </div>
       </motion.div>
 
