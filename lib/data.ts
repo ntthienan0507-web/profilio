@@ -23,16 +23,17 @@ import type {
 } from "./types";
 
 export const defaultSiteConfig: SiteConfig = {
-  name: "[YOUR FULL NAME]",
+  name: "Nguyễn Quốc Chung",
   title: "Senior Full-Stack Engineer | Platform & Data Architect",
   description:
     "Portfolio of a Senior Full-Stack Engineer specializing in Go, Ruby, TypeScript, and Cloud Infrastructure.",
   url: "https://profilio.vercel.app",
   ogImage: "/og-image.jpg",
   links: {
-    github: "https://github.com/[USERNAME]",
-    linkedin: "https://linkedin.com/in/[USERNAME]",
-    email: "[EMAIL]",
+    github: "https://github.com/ntthienan0507-web",
+    linkedin:
+      "https://www.linkedin.com/in/qu%E1%BB%91c-chung-nguy%E1%BB%85n-39a09936a",
+    email: "nguyenquocchung511@gmail.com",
   },
 };
 
@@ -51,11 +52,25 @@ export const skills: SkillCategory[] = [
   },
   {
     category: "Frameworks",
-    skills: ["Gin", "GORM", "SQLC", "Next.js", "React 18", "Rails 7.1", "Strapi CMS"],
+    skills: [
+      "Gin",
+      "GORM",
+      "SQLC",
+      "Next.js",
+      "React 18",
+      "Rails 7.1",
+      "Strapi CMS",
+    ],
   },
   {
     category: "Infrastructure",
-    skills: ["Kubernetes", "Docker", "VMware vSphere", "OpenNebula", "GitLab CI"],
+    skills: [
+      "Kubernetes",
+      "Docker",
+      "VMware vSphere",
+      "OpenNebula",
+      "GitLab CI",
+    ],
   },
   {
     category: "Management",
@@ -78,7 +93,8 @@ export const skills: SkillCategory[] = [
 export const experiences: Experience[] = [
   {
     title: "IaaS Platform",
-    subtitle: "Infrastructure-as-a-Service for automated cloud resource orchestration",
+    subtitle:
+      "Infrastructure-as-a-Service for automated cloud resource orchestration",
     company: "VNETWORK",
     period: "2022 – Present",
     tech: ["Ruby on Rails", "Kubernetes", "Docker", "RBS/Steep"],
@@ -95,14 +111,41 @@ export const experiences: Experience[] = [
     architectureDiagram: {
       nodes: [
         { id: "client", label: "Client Apps", x: 50, y: 5, type: "client" },
-        { id: "gw", label: "API Gateway", sublabel: "JWT + Versioned Routing", x: 50, y: 20, type: "gateway" },
-        { id: "auth", label: "Auth Service", sublabel: "RSA JWT", x: 15, y: 38, type: "service" },
+        {
+          id: "gw",
+          label: "API Gateway",
+          sublabel: "JWT + Versioned Routing",
+          x: 50,
+          y: 20,
+          type: "gateway",
+        },
+        {
+          id: "auth",
+          label: "Auth Service",
+          sublabel: "RSA JWT",
+          x: 15,
+          y: 38,
+          type: "service",
+        },
         { id: "vm", label: "VM Service", x: 35, y: 38, type: "service" },
         { id: "k8s", label: "K8s Service", x: 55, y: 38, type: "service" },
         { id: "net", label: "Network Service", x: 75, y: 38, type: "service" },
-        { id: "store", label: "Storage Service", x: 20, y: 55, type: "service" },
+        {
+          id: "store",
+          label: "Storage Service",
+          x: 20,
+          y: 55,
+          type: "service",
+        },
         { id: "bill", label: "Billing Service", x: 45, y: 55, type: "service" },
-        { id: "queue", label: "Job Queue", sublabel: "50+ Classes", x: 75, y: 58, type: "worker" },
+        {
+          id: "queue",
+          label: "Job Queue",
+          sublabel: "50+ Classes",
+          x: 75,
+          y: 58,
+          type: "worker",
+        },
         { id: "prov", label: "Provisioner", x: 65, y: 75, type: "worker" },
         { id: "scale", label: "Auto Scaler", x: 85, y: 75, type: "worker" },
         { id: "crd", label: "K8s CRDs", x: 75, y: 92, type: "gateway" },
@@ -127,14 +170,18 @@ export const experiences: Experience[] = [
         { from: "auth", to: "redis" },
       ],
       groups: [
-        { label: "Microservices", nodeIds: ["auth", "vm", "k8s", "net", "store", "bill"] },
+        {
+          label: "Microservices",
+          nodeIds: ["auth", "vm", "k8s", "net", "store", "bill"],
+        },
         { label: "Workers", nodeIds: ["queue", "prov", "scale"] },
       ],
     },
   },
   {
     title: "BI Financial API",
-    subtitle: "High-performance analytics engine for real-time financial reporting",
+    subtitle:
+      "High-performance analytics engine for real-time financial reporting",
     company: "VNETWORK",
     period: "2021 – 2022",
     tech: ["Go", "PostgreSQL", "Elastic APM", "Cron"],
@@ -150,18 +197,75 @@ export const experiences: Experience[] = [
     ],
     architectureDiagram: {
       nodes: [
-        { id: "dash", label: "Dashboard & Reports", x: 50, y: 5, type: "client" },
-        { id: "api", label: "Go API Server", sublabel: "85+ Endpoints", x: 50, y: 22, type: "gateway" },
-        { id: "rev", label: "Revenue Recognition", x: 18, y: 42, type: "service" },
-        { id: "alloc", label: "Allocation Engine", x: 42, y: 42, type: "service" },
+        {
+          id: "dash",
+          label: "Dashboard & Reports",
+          x: 50,
+          y: 5,
+          type: "client",
+        },
+        {
+          id: "api",
+          label: "Go API Server",
+          sublabel: "85+ Endpoints",
+          x: 50,
+          y: 22,
+          type: "gateway",
+        },
+        {
+          id: "rev",
+          label: "Revenue Recognition",
+          x: 18,
+          y: 42,
+          type: "service",
+        },
+        {
+          id: "alloc",
+          label: "Allocation Engine",
+          x: 42,
+          y: 42,
+          type: "service",
+        },
         { id: "bs", label: "Balance Sheet", x: 66, y: 42, type: "service" },
-        { id: "export", label: "Excel Exporter", x: 88, y: 42, type: "service" },
+        {
+          id: "export",
+          label: "Excel Exporter",
+          x: 88,
+          y: 42,
+          type: "service",
+        },
         { id: "cron", label: "Cron Scheduler", x: 18, y: 68, type: "worker" },
-        { id: "sync", label: "Multi-Source Sync", x: 42, y: 68, type: "worker" },
-        { id: "transform", label: "Data Transform", x: 42, y: 85, type: "worker" },
-        { id: "apm", label: "Elastic APM", sublabel: "P95 < 1s", x: 78, y: 68, type: "monitor" },
+        {
+          id: "sync",
+          label: "Multi-Source Sync",
+          x: 42,
+          y: 68,
+          type: "worker",
+        },
+        {
+          id: "transform",
+          label: "Data Transform",
+          x: 42,
+          y: 85,
+          type: "worker",
+        },
+        {
+          id: "apm",
+          label: "Elastic APM",
+          sublabel: "P95 < 1s",
+          x: 78,
+          y: 68,
+          type: "monitor",
+        },
         { id: "elk", label: "ELK Stack", x: 78, y: 85, type: "monitor" },
-        { id: "db", label: "PostgreSQL", sublabel: "Optimized Queries", x: 50, y: 95, type: "storage" },
+        {
+          id: "db",
+          label: "PostgreSQL",
+          sublabel: "Optimized Queries",
+          x: 50,
+          y: 95,
+          type: "storage",
+        },
       ],
       edges: [
         { from: "dash", to: "api", animated: true },
@@ -192,27 +296,63 @@ export const experiences: Experience[] = [
     period: "2020 – 2021",
     tech: ["Go", "Next.js", "Keycloak", "PostgreSQL"],
     metrics: [
+      { value: "1500+", label: "RESTful APIs" },
+      { value: "<200ms", label: "P95 Latency" },
       { value: "100+", label: "DB Tables" },
       { value: "90+", label: "PageSpeed" },
       { value: "45+", label: "Domains" },
     ],
     bullets: [
+      "Architected & Developed a massive backend ecosystem comprising 1500+ RESTful APIs for internal CRM and ERP modules using Go (Gin, SQLC), achieving a p95 latency of <200ms even under high concurrent loads.",
       "Analyzed requirements and designed DB schemas for 100+ tables, translating into actionable tickets.",
       "Built high-performance platforms with Next.js (App Router) + ISR achieving PageSpeed 90+.",
       "Integrated centralized Keycloak SSO with fine-grained RBAC for a modular system of 45+ domains.",
     ],
     architectureDiagram: {
       nodes: [
-        { id: "users", label: "Users", sublabel: "45+ Domains", x: 50, y: 5, type: "client" },
+        {
+          id: "users",
+          label: "Users",
+          sublabel: "45+ Domains",
+          x: 50,
+          y: 5,
+          type: "client",
+        },
         { id: "cdn", label: "CDN / Edge", x: 50, y: 20, type: "gateway" },
-        { id: "next", label: "Next.js", sublabel: "ISR + SSR", x: 50, y: 35, type: "gateway" },
-        { id: "pages", label: "Landing Pages", sublabel: "PageSpeed 90+", x: 18, y: 52, type: "service" },
+        {
+          id: "next",
+          label: "Next.js",
+          sublabel: "ISR + SSR",
+          x: 50,
+          y: 35,
+          type: "gateway",
+        },
+        {
+          id: "pages",
+          label: "Landing Pages",
+          sublabel: "PageSpeed 90+",
+          x: 18,
+          y: 52,
+          type: "service",
+        },
         { id: "portal", label: "Data Portal", x: 42, y: 52, type: "service" },
         { id: "admin", label: "Admin Panel", x: 66, y: 52, type: "service" },
         { id: "kc", label: "Keycloak SSO", x: 22, y: 72, type: "worker" },
-        { id: "rbac", label: "Fine-grained RBAC", x: 22, y: 88, type: "worker" },
+        {
+          id: "rbac",
+          label: "Fine-grained RBAC",
+          x: 22,
+          y: 88,
+          type: "worker",
+        },
         { id: "goapi", label: "Go REST API", x: 60, y: 72, type: "service" },
-        { id: "schema", label: "100+ DB Tables", x: 60, y: 88, type: "service" },
+        {
+          id: "schema",
+          label: "100+ DB Tables",
+          x: 60,
+          y: 88,
+          type: "service",
+        },
         { id: "db", label: "PostgreSQL", x: 40, y: 95, type: "storage" },
         { id: "cache", label: "Redis", x: 80, y: 88, type: "storage" },
       ],
@@ -248,8 +388,8 @@ export const achievements: Achievement[] = [
 
 export const education: EducationType = {
   degree: "Bachelor of Information Technology",
-  school: "[University Name]",
-  period: "2016 – 2020",
+  school: "Hutech University",
+  period: "2017 – 2021",
 };
 
 export const aboutText =
@@ -262,12 +402,36 @@ export const stats: Stat[] = [
 ];
 
 export const hobbies: Hobby[] = [
-  { icon: "code", label: "Open Source", description: "Contributing to OSS projects & building dev tools" },
-  { icon: "gamepad", label: "Gaming", description: "Strategy & RPG games for problem-solving fun" },
-  { icon: "music", label: "Music", description: "Listening to lo-fi & chill beats while coding" },
-  { icon: "book", label: "Reading", description: "Tech blogs, system design papers & manga" },
-  { icon: "coffee", label: "Coffee", description: "Exploring specialty coffee & brewing methods" },
-  { icon: "globe", label: "Travel", description: "Discovering new cultures & street food" },
+  {
+    icon: "code",
+    label: "Open Source",
+    description: "Contributing to OSS projects & building dev tools",
+  },
+  {
+    icon: "gamepad",
+    label: "Gaming",
+    description: "Strategy & RPG games for problem-solving fun",
+  },
+  {
+    icon: "music",
+    label: "Music",
+    description: "Listening to lo-fi & chill beats while coding",
+  },
+  {
+    icon: "book",
+    label: "Reading",
+    description: "Tech blogs, system design papers & manga",
+  },
+  {
+    icon: "coffee",
+    label: "Coffee",
+    description: "Exploring specialty coffee & brewing methods",
+  },
+  {
+    icon: "globe",
+    label: "Travel",
+    description: "Discovering new cultures & street food",
+  },
 ];
 
 export const defaultContent: PortfolioContent = {
