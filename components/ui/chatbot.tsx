@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -54,21 +54,30 @@ export function Chatbot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
-  const sendMessage = useCallback(
-    async (text?: string) => {
-      const msgText = (text || input).trim();
-      if (!msgText || isStreaming) return;
+  const sendMessage = async (text?: string) => {
+    const msgText = (text || input).trim();
+    if (!msgText || isStreaming) return;
 
-      setError(null);
-      const userMsg: Message = {
-        id: crypto.randomUUID(),
-        role: "user",
-        content: msgText,
-      };
-      const updatedMessages = [...messages, userMsg];
-      setMessages(updatedMessages);
-      setInput("");
-      setIsStreaming(true);
+    setError(null);
+    setInput("");
+    setIsStreaming(true);
+
+    const userMsg: Message = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: msgText,
+    };
+
+    const assistantId = crypto.randomUUID();
+
+    setMessages((prev) => {
+      const updated = [...prev, userMsg];
+
+      // Fire API call with the updated messages
+      const apiMessages = updated.map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
 
       let isNewSession = false;
       try {
@@ -76,61 +85,51 @@ export function Chatbot() {
         if (isNewSession) sessionStorage.setItem(SESSION_FLAG, "1");
       } catch {}
 
-      const assistantId = crypto.randomUUID();
-      setMessages((prev) => [
-        ...prev,
-        { id: assistantId, role: "assistant", content: "" },
-      ]);
+      // Start streaming in background
+      (async () => {
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: apiMessages, isNewSession }),
+          });
 
-      try {
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: updatedMessages.map((m) => ({
-              role: m.role,
-              content: m.content,
-            })),
-            isNewSession,
-          }),
-        });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || "Failed to get response");
+          }
 
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(
-            errData.error || "Failed to get response"
+          const reader = res.body?.getReader();
+          const decoder = new TextDecoder();
+          if (!reader) throw new Error("No response stream");
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === assistantId
+                  ? { ...m, content: m.content + chunk }
+                  : m
+              )
+            );
+          }
+        } catch (err) {
+          setError(
+            err instanceof Error ? err.message : "Something went wrong"
           );
-        }
-
-        const reader = res.body?.getReader();
-        const decoder = new TextDecoder();
-        if (!reader) throw new Error("No response stream");
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
           setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantId
-                ? { ...m, content: m.content + chunk }
-                : m
-            )
+            prev.filter((m) => m.id !== assistantId)
           );
+        } finally {
+          setIsStreaming(false);
         }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Something went wrong"
-        );
-        setMessages((prev) =>
-          prev.filter((m) => m.id !== assistantId)
-        );
-      } finally {
-        setIsStreaming(false);
-      }
-    },
-    [input, messages, isStreaming]
-  );
+      })();
+
+      return [...updated, { id: assistantId, role: "assistant" as const, content: "" }];
+    });
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
