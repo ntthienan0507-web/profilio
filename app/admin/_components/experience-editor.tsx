@@ -212,6 +212,21 @@ export function ExperienceEditor({ experiences, onChange }: ExperienceEditorProp
                   placeholder="Led development of feature X&#10;Improved performance by Y%"
                 />
               </div>
+
+              <div>
+                <label className="text-xs text-[var(--text-secondary)] mb-1 block">
+                  Architecture Diagram (Mermaid syntax)
+                </label>
+                <textarea
+                  value={exp.architectureDiagram || ""}
+                  onChange={(e) =>
+                    handleExperienceChange(index, "architectureDiagram", e.target.value)
+                  }
+                  className="rounded-lg border border-[var(--glass-border)] bg-[var(--glass-bg)] px-3 py-2 text-sm outline-none focus:border-accent w-full font-mono"
+                  rows={8}
+                  placeholder="graph TB&#10;  A[Service A] --> B[Service B]&#10;  B --> C[(Database)]"
+                />
+              </div>
             </div>
           )}
         </div>

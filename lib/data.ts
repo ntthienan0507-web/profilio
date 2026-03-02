@@ -92,6 +92,43 @@ export const experiences: Experience[] = [
       "Developed 50+ background job classes automating cluster provisioning and scaling via CRDs.",
       "Implemented RBS/Steep type safety for mission-critical infrastructure operations.",
     ],
+    architectureDiagram: `graph TB
+  Client([Client Apps]):::client --> GW[API Gateway<br/>JWT + Versioned Routing]:::gateway
+
+  subgraph Services[Microservices Cluster]
+    direction TB
+    GW --> Auth[Auth Service<br/>RSA JWT]:::service
+    GW --> VM[VM Service]:::service
+    GW --> K8s[K8s Service]:::service
+    GW --> Net[Network Service]:::service
+    GW --> Store[Storage Service]:::service
+    GW --> Bill[Billing Service]:::service
+  end
+
+  subgraph Workers[Background Workers]
+    direction TB
+    Queue[(Job Queue<br/>50+ Classes)]:::queue
+    Prov[Cluster Provisioner]:::worker
+    Scale[Auto Scaler]:::worker
+    Queue --> Prov
+    Queue --> Scale
+  end
+
+  Services --> Queue
+  K8s --> CRD[Kubernetes CRDs]:::infra
+  Prov --> CRD
+  Scale --> CRD
+  Store --> S3[(Object Storage)]:::storage
+  Bill --> DB[(PostgreSQL)]:::storage
+  Auth --> Redis[(Redis Cache)]:::storage
+
+  classDef client fill:#10b981,stroke:#059669,color:#fff
+  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
+  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
+  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
+  classDef queue fill:#1a1a2e,stroke:#10b981,color:#10b981
+  classDef infra fill:#0a0a0f,stroke:#10b981,color:#10b981
+  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
   },
   {
     title: "BI Financial API",
@@ -109,6 +146,41 @@ export const experiences: Experience[] = [
       "Built 85+ endpoints handling large-scale datasets with PostgreSQL optimization and Elastic APM.",
       "Engineered robust Cron scheduling for multi-source data sync and high-volume Excel exports.",
     ],
+    architectureDiagram: `graph TB
+  Clients([Dashboard & Reports]):::client --> API[Go API Server<br/>85+ Endpoints]:::gateway
+
+  subgraph Core[Core Engine]
+    direction TB
+    API --> Rev[Revenue Recognition]:::service
+    API --> Alloc[Allocation Engine]:::service
+    API --> BS[Balance Sheet Calc]:::service
+    API --> Export[Excel Exporter]:::service
+  end
+
+  subgraph Data[Data Pipeline]
+    direction TB
+    Cron[Cron Scheduler]:::worker --> Sync[Multi-Source Sync]:::worker
+    Sync --> Transform[Data Transform]:::worker
+  end
+
+  subgraph Observe[Observability]
+    direction TB
+    APM[Elastic APM<br/>P95 &lt; 1s]:::monitor
+    Logs[ELK Stack]:::monitor
+  end
+
+  Core --> DB[(PostgreSQL<br/>Optimized Queries)]:::storage
+  Data --> DB
+  API --> APM
+  API --> Logs
+  Cron --> Export
+
+  classDef client fill:#10b981,stroke:#059669,color:#fff
+  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
+  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
+  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
+  classDef monitor fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8
+  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
   },
   {
     title: "DataCentral & Landing Pages",
@@ -126,6 +198,39 @@ export const experiences: Experience[] = [
       "Built high-performance platforms with Next.js (App Router) + ISR achieving PageSpeed 90+.",
       "Integrated centralized Keycloak SSO with fine-grained RBAC for a modular system of 45+ domains.",
     ],
+    architectureDiagram: `graph TB
+  Users([Users<br/>45+ Domains]):::client --> CDN[CDN / Edge]:::gateway
+  CDN --> Next[Next.js App Router<br/>ISR + SSR]:::gateway
+
+  subgraph Frontend[Web Platform]
+    direction TB
+    Next --> Pages[Landing Pages<br/>PageSpeed 90+]:::service
+    Next --> Portal[Data Portal]:::service
+    Next --> Admin[Admin Panel]:::service
+  end
+
+  subgraph Auth[Authentication]
+    direction TB
+    KC[Keycloak SSO]:::worker --> RBAC[Fine-grained RBAC]:::worker
+  end
+
+  subgraph Backend[Go Backend]
+    direction TB
+    API[Go REST API]:::service
+    API --> Schema[100+ DB Tables]:::service
+  end
+
+  Frontend --> KC
+  Frontend --> API
+  API --> DB[(PostgreSQL)]:::storage
+  KC --> DB
+  API --> Cache[(Redis)]:::storage
+
+  classDef client fill:#10b981,stroke:#059669,color:#fff
+  classDef gateway fill:#1a1a2e,stroke:#10b981,color:#f0f0f5
+  classDef service fill:#12121a,stroke:#10b981,color:#a0a0b8
+  classDef worker fill:#12121a,stroke:#34d399,color:#a0a0b8
+  classDef storage fill:#1a1a2e,stroke:#6b6b80,color:#a0a0b8`,
   },
 ];
 

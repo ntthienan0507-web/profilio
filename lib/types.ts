@@ -11,6 +11,7 @@ export interface Experience {
   tech: string[];
   metrics: { value: string; label: string }[];
   bullets: string[];
+  architectureDiagram?: string;
 }
 
 export interface Achievement {
