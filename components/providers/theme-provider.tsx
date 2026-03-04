@@ -26,9 +26,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       setTheme(stored);
       document.documentElement.className = stored;
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
-      document.documentElement.className = "light";
     }
   }, []);
 
